@@ -10,7 +10,7 @@
  * chip the ball to the chip target.
  */
 
-class ChipTactic : public Tactic
+class ChipTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -36,8 +36,6 @@ class ChipTactic : public Tactic
      * @param chip_direction The direction the Robot will chip in
      */
     void updateControlParams(const Point& chip_origin, const Point& chip_target);
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

@@ -7,15 +7,13 @@
  * The StopTactic will stop the robot from moving. The robot will actively try and brake
  * to come to a halt.
  */
-class StopTactic : public Tactic
+class StopTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
      * Creates a new StopTactic
      */
     explicit StopTactic();
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

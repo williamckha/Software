@@ -15,11 +15,6 @@ PassDefenderTactic::PassDefenderTactic()
     }
 }
 
-void PassDefenderTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void PassDefenderTactic::updateControlParams(const Point &position_to_block_from)
 {
     control_params.position_to_block_from = position_to_block_from;

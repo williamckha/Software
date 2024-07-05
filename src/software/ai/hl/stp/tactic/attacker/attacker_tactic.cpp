@@ -35,11 +35,6 @@ void AttackerTactic::updateControlParams(std::optional<Point> chip_target)
     this->chip_target = chip_target;
 }
 
-void AttackerTactic::accept(TacticVisitor& visitor) const
-{
-    visitor.visit(*this);
-}
-
 void AttackerTactic::updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

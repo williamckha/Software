@@ -13,7 +13,7 @@
  * Note that this tactic does not take into account the time the pass should occur at,
  * it simply tries to move to the best position to receive the pass as possible
  */
-class ReceiverTactic : public Tactic
+class ReceiverTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     ReceiverTactic();
@@ -52,8 +52,6 @@ class ReceiverTactic : public Tactic
      */
     static Shot getOneTimeShotPositionAndOrientation(const Robot& robot, const Ball& ball,
                                                      const Point& best_shot_target);
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

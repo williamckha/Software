@@ -7,7 +7,7 @@
  * The MoveTactic will move the assigned robot to the given destination and arrive
  * with the specified final orientation and speed
  */
-class MoveTactic : public Tactic
+class MoveTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -58,8 +58,6 @@ class MoveTactic : public Tactic
                              double final_speed,
                              TbotsProto::MaxAllowedSpeedMode max_allowed_speed_mode,
                              TbotsProto::ObstacleAvoidanceMode obstacle_avoidance_mode);
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

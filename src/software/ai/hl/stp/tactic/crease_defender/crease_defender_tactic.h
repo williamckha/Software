@@ -25,7 +25,7 @@
  *                       |         ++    <-- Goalie
  *+----------------------+---------++---------+------------------+
  */
-class CreaseDefenderTactic : public Tactic
+class CreaseDefenderTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -51,8 +51,6 @@ class CreaseDefenderTactic : public Tactic
                              const TbotsProto::CreaseDefenderAlignment &alignment,
                              TbotsProto::MaxAllowedSpeedMode max_allowed_speed_mode =
                                  TbotsProto::MaxAllowedSpeedMode::PHYSICAL_LIMIT);
-
-    void accept(TacticVisitor &visitor) const override;
 
    private:
     void updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm) override;

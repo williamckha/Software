@@ -26,11 +26,6 @@ void DribbleTactic::updateControlParams(std::optional<Point> dribble_destination
     control_params.allow_excessive_dribbling = allow_excessive_dribbling;
 }
 
-void DribbleTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void DribbleTactic::updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

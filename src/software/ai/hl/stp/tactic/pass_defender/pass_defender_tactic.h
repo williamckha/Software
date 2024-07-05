@@ -11,7 +11,7 @@
  * an active enemy pass is directed towards the defender.
  *
  */
-class PassDefenderTactic : public Tactic
+class PassDefenderTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     explicit PassDefenderTactic();
@@ -22,8 +22,6 @@ class PassDefenderTactic : public Tactic
      * @param position_to_block_from The location on the field to block enemy passes from
      */
     void updateControlParams(const Point& position_to_block_from);
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

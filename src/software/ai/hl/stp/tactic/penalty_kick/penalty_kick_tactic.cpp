@@ -15,11 +15,6 @@ PenaltyKickTactic::PenaltyKickTactic(TbotsProto::AiConfig ai_config)
 
 void PenaltyKickTactic::updateControlParams() {}
 
-void PenaltyKickTactic::accept(TacticVisitor& visitor) const
-{
-    visitor.visit(*this);
-}
-
 void PenaltyKickTactic::updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

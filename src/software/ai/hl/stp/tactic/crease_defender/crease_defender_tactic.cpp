@@ -24,11 +24,6 @@ CreaseDefenderTactic::CreaseDefenderTactic(
     }
 }
 
-void CreaseDefenderTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void CreaseDefenderTactic::updateControlParams(
     const Point &enemy_threat_origin,
     const TbotsProto::CreaseDefenderAlignment &alignment,

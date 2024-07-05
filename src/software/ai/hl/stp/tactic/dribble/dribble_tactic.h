@@ -11,7 +11,7 @@
  * Done: When the ball is near the dribbler of the robot and the optional dribble
  * destination and face ball orientation conditions are satisfied
  */
-class DribbleTactic : public Tactic
+class DribbleTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -36,8 +36,6 @@ class DribbleTactic : public Tactic
     void updateControlParams(std::optional<Point> dribble_destination,
                              std::optional<Angle> final_dribble_orientation,
                              bool allow_excessive_dribbling = false);
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

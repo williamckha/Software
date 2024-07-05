@@ -26,11 +26,6 @@ void ReceiverTactic::updateControlParams(std::optional<Pass> updated_pass,
     control_params.disable_one_touch_shot = disable_one_touch_shot;
 }
 
-void ReceiverTactic::accept(TacticVisitor& visitor) const
-{
-    visitor.visit(*this);
-}
-
 void ReceiverTactic::updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

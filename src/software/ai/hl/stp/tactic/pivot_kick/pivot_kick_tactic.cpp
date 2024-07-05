@@ -23,11 +23,6 @@ PivotKickTactic::PivotKickTactic(TbotsProto::AiConfig ai_config)
     }
 }
 
-void PivotKickTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void PivotKickTactic::updateControlParams(const Point &kick_origin,
                                           const Angle &kick_direction,
                                           AutoChipOrKick auto_chip_or_kick)

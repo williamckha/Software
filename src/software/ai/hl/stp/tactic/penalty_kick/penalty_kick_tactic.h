@@ -11,7 +11,7 @@
  * This tactic is for a robot performing a penalty kick.
  */
 
-class PenaltyKickTactic : public Tactic
+class PenaltyKickTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -26,8 +26,6 @@ class PenaltyKickTactic : public Tactic
     void updateControlParams();
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
-
-    void accept(TacticVisitor &visitor) const override;
 
    private:
     void updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm) override;

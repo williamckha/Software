@@ -68,8 +68,3 @@ void MoveTactic::updatePrimitive(const TacticUpdate &tactic_update, bool reset_f
     fsm_map.at(tactic_update.robot.id())
         ->process_event(MoveFSM::Update(control_params, tactic_update));
 }
-
-void MoveTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}

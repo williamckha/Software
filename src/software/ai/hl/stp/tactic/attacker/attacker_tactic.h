@@ -11,7 +11,7 @@
  * Note that this tactic does not take into account the time the pass should occur at,
  * it simply tries to move to the best position to take the pass as fast as possible
  */
-class AttackerTactic : public Tactic
+class AttackerTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -38,8 +38,6 @@ class AttackerTactic : public Tactic
      * not provided, the point defaults to the enemy goal
      */
     void updateControlParams(std::optional<Point> chip_target);
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

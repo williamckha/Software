@@ -27,11 +27,6 @@ void GoalieTactic::updateControlParams(bool should_move_to_goal_line)
     control_params.should_move_to_goal_line = should_move_to_goal_line;
 }
 
-void GoalieTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void GoalieTactic::updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

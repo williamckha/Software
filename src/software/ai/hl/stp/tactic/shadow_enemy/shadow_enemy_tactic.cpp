@@ -19,11 +19,6 @@ void ShadowEnemyTactic::updateControlParams(std::optional<EnemyThreat> enemy_thr
     control_params.shadow_distance = shadow_distance;
 }
 
-void ShadowEnemyTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void ShadowEnemyTactic::updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

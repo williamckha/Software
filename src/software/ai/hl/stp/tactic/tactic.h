@@ -4,6 +4,7 @@
 #include "software/ai/hl/stp/tactic/tactic_fsm.h"
 #include "software/ai/hl/stp/tactic/tactic_visitor.h"
 #include "software/ai/hl/stp/tactic/transition_conditions.h"
+#include "software/util/visitor/visitable.hpp"
 #include "software/world/world.h"
 
 /**
@@ -13,14 +14,9 @@
  * @param parent_class The class that is being copied
  */
 #define COPY_TACTIC(new_class, parent_class)                                             \
-    class new_class : public parent_class                                                \
+    class new_class : public parent_class, public Visitable<new_class>                   \
     {                                                                                    \
         using parent_class::parent_class;                                                \
-                                                                                         \
-        void accept(TacticVisitor &visitor) const                                        \
-        {                                                                                \
-            visitor.visit(*this);                                                        \
-        }                                                                                \
     };
 
 /**
@@ -91,13 +87,6 @@ class Tactic
      * @return the next primitive
      */
     std::map<RobotId, std::shared_ptr<Primitive>> get(const WorldPtr &world_ptr);
-
-    /**
-     * Accepts a Tactic Visitor and calls the visit function on itself
-     *
-     * @param visitor A Tactic Visitor
-     */
-    virtual void accept(TacticVisitor &visitor) const = 0;
 
     virtual ~Tactic() = default;
 

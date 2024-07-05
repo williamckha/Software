@@ -10,11 +10,6 @@ StopTactic::StopTactic() : Tactic(std::set<RobotCapability>()), fsm_map()
     }
 }
 
-void StopTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void StopTactic::updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

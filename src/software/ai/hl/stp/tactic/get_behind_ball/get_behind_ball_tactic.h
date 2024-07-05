@@ -7,7 +7,7 @@
  * The GetBehindBallTactic will move the assigned robot to the given destination and
  * arrive with the specified final orientation and speed
  */
-class GetBehindBallTactic : public Tactic
+class GetBehindBallTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -22,8 +22,6 @@ class GetBehindBallTactic : public Tactic
      * @param chick_direction The direction to kick or chip
      */
     void updateControlParams(const Point& ball_location, Angle chick_direction);
-
-    void accept(TacticVisitor& visitor) const override;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
 

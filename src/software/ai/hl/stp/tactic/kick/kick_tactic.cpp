@@ -27,11 +27,6 @@ void KickTactic::updateControlParams(const Point &kick_origin, const Point &kick
                         kick_speed_meters_per_second);
 }
 
-void KickTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void KickTactic::updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm)
 {
     if (reset_fsm)

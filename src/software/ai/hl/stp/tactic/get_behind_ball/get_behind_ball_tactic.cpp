@@ -20,11 +20,6 @@ void GetBehindBallTactic::updateControlParams(const Point &ball_location,
     control_params.chick_direction = chick_direction;
 }
 
-void GetBehindBallTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void GetBehindBallTactic::updatePrimitive(const TacticUpdate &tactic_update,
                                           bool reset_fsm)
 {

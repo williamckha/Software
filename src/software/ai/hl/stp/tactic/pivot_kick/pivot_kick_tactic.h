@@ -6,7 +6,7 @@
 #include "software/ai/hl/stp/tactic/tactic.h"
 #include "software/geom/segment.h"
 
-class PivotKickTactic : public Tactic
+class PivotKickTactic : public Tactic, public Visitable<StopTactic>
 {
    public:
     /**
@@ -29,8 +29,6 @@ class PivotKickTactic : public Tactic
      */
     void updateControlParams(const Point& kick_origin, const Angle& kick_direction,
                              AutoChipOrKick auto_chip_or_kick);
-
-    void accept(TacticVisitor& visitor) const override;
 
    private:
     void updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm) override;

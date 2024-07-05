@@ -27,11 +27,6 @@ void ChipTactic::updateControlParams(const Point &chip_origin, const Point &chip
                         (chip_target - chip_origin).length());
 }
 
-void ChipTactic::accept(TacticVisitor &visitor) const
-{
-    visitor.visit(*this);
-}
-
 void ChipTactic::updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm)
 {
     if (reset_fsm)
