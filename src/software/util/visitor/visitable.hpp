@@ -2,59 +2,77 @@
 
 #include <type_traits>
 
+#include "software/logger/logger.h"
+#include "software/util/typename/typename.h"
 #include "software/util/visitor/visitor.hpp"
 
 /**
- * Refer to the docs about why we use the Visitor Design Pattern.
- * 
- * A class T should inherit Visitable<T> to indicate that it can be visited by a
- * Visitor<T>. Class T will inherit an `accept` method that allows any Visitor<T> 
- * to visit it.
+ * This "acyclic visitor pattern" code is adapted from the
+ * Loki C++ Template Library, developed by Andrei Alexandrescu.
  *
- * See visitor_test.cpp for an example on how to use Visitor and Visitable.
- *
- * =========================================================================================
- *
- * Implementation explanation:
- *
- * We take advantage of the curiously recurring template pattern (CRTP) to avoid
- * having to forward declare visitable classes in a visitor's header file (which is
- * necessary in the traditional implementation of the visitor pattern).
- *
- * See: https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
- *
- * To explain how CRTP works here, assume we have some class T that inherits
- * Visitable<T>. The function Visitable<T>::accept will not be instantiated until it
- * is called by some later code *after* T is declared. Hence, the declaration of T is
- * actually known to the compiler at the time Visitable<T>::accept is instantiated.
- *
- * We have effectively created a virtual function `accept` inherited by all classes
- * that derive from Visitable, but this "virtual" function can be a function template
- * (normally, member function templates cannot be declared virtual). This allows us to
- * make the Visitor type a template parameter, so a concrete Visitor class does not
- * need to be referenced in the declaration of classes that derive from Visitable.
- * This removes all circular dependencies we would normally have in a traditional
- * visitor pattern implementation.
- * 
- * This code is adapted from https://stackoverflow.com/a/7877397.
- *
- * @tparam T the class that should be made visitable
+ * https://github.com/dutor/loki/blob/master/Reference/Visitor.h
  */
-template <typename T>
+
+/**
+ * Refer to the docs about why we use the Visitor Design Pattern.
+ *
+ * A class should inherit Visitable<R> to indicate that it can be visited by a
+ * Visitor<R>. The class will inherit and must implement a virtual `accept` method
+ * that allows any Visitor<R> to visit it.
+ *
+ * @example see visitor_test.cpp for an example on how to use Visitor and Visitable.
+ *
+ * @tparam R the return type of the visit operation
+ */
+template <typename R = void>
 class Visitable
 {
    public:
     /**
-     * Accepts a Visitor and calls the visit function on itself.
+     * Accepts a visitor and calls the visit method on itself.
      *
-     * @tparam TVisitor the Visitor which has a visit method for T
+     * NOTE: You can use the DEFINE_VISITABLE macro to quickly implement this method.
      *
-     * @param visitor a Visitor of type TVisitor
+     * @param visitor the visitor to accept
+     *
+     * @return the result of the operation that the visitor performed
+     * on this instance
      */
-    template <typename TVisitor>
-    requires std::is_base_of<Visitor<T>, TVisitor>::value
-    void accept(TVisitor& visitor) 
+    virtual R accept(BaseVisitor& visitor) = 0;
+
+   protected:
+    // Type alias for R so that it can be used in DEFINE_VISITABLE
+    using VisitReturnType = R;
+
+    /**
+     * Internal implementation of the `accept` method.
+     * If the visitor has a `visit` method for the visitable instance, it will
+     * call `visit` on the instance. Otherwise, this method will fail.
+     *
+     * @tparam T the type of the visitable instance
+     *
+     * @param visitable the instance that the visitor should visit
+     * @param visitor the visitor
+     *
+     * @return the result of the operation that the visitor performed
+     * on the visitable
+     */
+    template <typename T>
+    R acceptImpl(T& visitable, BaseVisitor& visitor)
     {
-        visitor.visit(static_cast<T&>(*this));
+        if (Visitor<T, R>* v = dynamic_cast<Visitor<T, R>*>(&visitor))
+        {
+            return v->visit(visitable);
+        }
+
+        LOG(FATAL) << "Visitor " << TYPENAME(visitor)
+                   << " does not have a visit method for " << TYPENAME(visitable);
+        __builtin_unreachable();
     }
 };
+
+#define DEFINE_VISITABLE                                                                 \
+    VisitReturnType accept(BaseVisitor& visitor) override                                \
+    {                                                                                    \
+        return acceptImpl(*this, visitor);                                               \
+    }

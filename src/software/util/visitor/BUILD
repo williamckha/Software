@@ -8,7 +8,11 @@ cc_library(
 cc_library(
     name = "visitable",
     hdrs = ["visitable.hpp"],
-    deps = [":visitor"],
+    deps = [
+        ":visitor", 
+        "//software/logger",
+        "//software/util/typename",
+    ],
 )
 
 

@@ -1,44 +1,51 @@
 #include "software/util/visitor/visitor.hpp"
-#include "software/util/visitor/visitable.hpp"
 
 #include <gtest/gtest.h>
 
 #include <string>
+#include <memory>
 
-struct A : public Visitable<A>
+#include "software/util/visitor/visitable.hpp"
+
+struct Animal : public Visitable<int>
 {
+};
+
+struct Dog : public Animal
+{
+    DEFINE_VISITABLE
+
     int foo = 1;
 };
 
-struct B : public Visitable<B>
+struct Cat : public Animal
 {
-    double bar = 2;
+    DEFINE_VISITABLE
+
+    int bar = 2;
 };
 
-struct ABVisitor : public Visitor<A>, public Visitor<B>
+struct AnimalVisitor : public BaseVisitor,
+                       public Visitor<Dog, int>,
+                       public Visitor<Cat, int>
 {
-    void visit(A& visitable)
+    int visit(Dog& visitable) override
     {
-        value = std::to_string(visitable.foo);
+        return visitable.foo;
     }
 
-    void visit(B& visitable)
+    int visit(Cat& visitable) override
     {
-        value = std::to_string(visitable.bar);
+        return visitable.bar;
     }
-
-    std::string value;
 };
 
 TEST(VisitorTest, test_visitor_and_visitable)
 {
-    ABVisitor visitor;
-    A a;
-    B b;
+    AnimalVisitor visitor;
+    std::unique_ptr<Animal> dog = std::make_unique<Dog>();
+    std::unique_ptr<Animal> cat = std::make_unique<Cat>();
 
-    a.accept(visitor);
-    EXPECT_EQ(std::to_string(a.foo), visitor.value);
-
-    b.accept(visitor);
-    EXPECT_EQ(std::to_string(b.bar), visitor.value);
+    EXPECT_EQ(dog->accept(visitor), 1);
+    EXPECT_EQ(cat->accept(visitor), 2);
 }
