@@ -28,8 +28,9 @@ class GeomObstacle : public Obstacle
     TbotsProto::Obstacle createObstacleProto() const override;
     Rectangle axisAlignedBoundingBox(double inflation_radius = 0) const override;
     std::string toString(void) const override;
-    void accept(ObstacleVisitor& visitor) const override;
     std::vector<Point> rasterize(const double resolution_size) const override;
+
+    DEFINE_VISITABLE
 
     /**
      * Gets the underlying GEOM_TYPE
@@ -109,10 +110,4 @@ template <typename GEOM_TYPE>
 const GEOM_TYPE GeomObstacle<GEOM_TYPE>::getGeom(void) const
 {
     return geom_;
-}
-
-template <typename GEOM_TYPE>
-void GeomObstacle<GEOM_TYPE>::accept(ObstacleVisitor& visitor) const
-{
-    visitor.visit(*this);
 }

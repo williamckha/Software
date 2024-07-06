@@ -1,16 +1,11 @@
 #pragma once
 
-#include "software/ai/navigator/obstacle/obstacle.hpp"
+#include "software/ai/navigator/obstacle/geom_obstacle.hpp"
 #include "software/geom/circle.h"
 #include "software/geom/polygon.h"
 #include "software/geom/rectangle.h"
 #include "software/geom/stadium.h"
-
-// We forward-declare GeomObstacle because if we include them we induce a
-// circular dependency between the Individual library for each obstacle and this
-// visitor.
-template <typename GEOM_TYPE>
-class GeomObstacle;
+#include "software/util/visitor/visitor.hpp"
 
 /**
  * This class provides an interface for all Obstacle Visitors. The Visitor design pattern
@@ -19,19 +14,12 @@ class GeomObstacle;
  * Obstacle classes with information or functions that are specific to the task we
  * want to perform.
  */
-class ObstacleVisitor
+class ObstacleVisitor : public BaseVisitor,
+                        public Visitor<GeomObstacle<Circle>>,
+                        public Visitor<GeomObstacle<Polygon>>,
+                        public Visitor<GeomObstacle<Rectangle>>,
+                        public Visitor<GeomObstacle<Stadium>>
 {
    public:
-    ObstacleVisitor()          = default;
     virtual ~ObstacleVisitor() = default;
-
-    /**
-     * Visits an Obstacle to perform an operation.
-     *
-     * @param The Obstacle to visit
-     */
-    virtual void visit(const GeomObstacle<Circle> &geom_obstacle)    = 0;
-    virtual void visit(const GeomObstacle<Polygon> &geom_obstacle)   = 0;
-    virtual void visit(const GeomObstacle<Rectangle> &geom_obstacle) = 0;
-    virtual void visit(const GeomObstacle<Stadium> &geom_obstacle)   = 0;
 };

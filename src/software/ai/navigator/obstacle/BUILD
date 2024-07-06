@@ -7,9 +7,9 @@ cc_library(
         "obstacle.hpp",
     ],
     deps = [
-        ":obstacle_visitor",
         "//proto/message_translation:tbots_protobuf",
         "//software/geom/algorithms",
+        "//software/util/visitor:visitable",
     ],
 )
 
@@ -112,9 +112,11 @@ cc_library(
     # We expose obstacle visitor so that it can visualized
     visibility = ["//visibility:public"],
     deps = [
+        ":geom_obstacle",
         "//software/geom:circle",
         "//software/geom:polygon",
         "//software/geom:rectangle",
         "//software/geom:stadium",
+        "//software/util/visitor:visitor",
     ],
 )
