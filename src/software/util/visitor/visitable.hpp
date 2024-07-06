@@ -1,7 +1,5 @@
 #pragma once
 
-#include <type_traits>
-
 #include "software/logger/logger.h"
 #include "software/util/typename/typename.h"
 #include "software/util/visitor/visitor.hpp"
@@ -11,16 +9,16 @@
  * Loki C++ Template Library, developed by Andrei Alexandrescu.
  *
  * https://github.com/dutor/loki/blob/master/Reference/Visitor.h
+ *
+ * Refer to the docs about why we use the Visitor Design Pattern.
  */
 
 /**
- * Refer to the docs about why we use the Visitor Design Pattern.
- *
  * A class should inherit Visitable<R> to indicate that it can be visited by a
  * Visitor<R>. The class will inherit and must implement a virtual `accept` method
  * that allows any Visitor<R> to visit it.
  *
- * @example see visitor_test.cpp for an example on how to use Visitor and Visitable.
+ * @example See visitor_test.cpp for an example on how to use Visitor and Visitable.
  *
  * @tparam R the return type of the visit operation
  */

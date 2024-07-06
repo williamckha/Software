@@ -13,7 +13,7 @@
  * Note that this tactic does not take into account the time the pass should occur at,
  * it simply tries to move to the best position to receive the pass as possible
  */
-class ReceiverTactic : public Tactic, public Visitable<StopTactic>
+class ReceiverTactic : public Tactic
 {
    public:
     ReceiverTactic();
@@ -54,6 +54,7 @@ class ReceiverTactic : public Tactic, public Visitable<StopTactic>
                                                      const Point& best_shot_target);
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
    private:
     // The minimum proportion of open net we're shooting on vs the entire size of the net

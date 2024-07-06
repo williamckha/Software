@@ -2,7 +2,6 @@
 
 #include "software/ai/hl/stp/tactic/primitive.h"
 #include "software/ai/hl/stp/tactic/tactic_fsm.h"
-#include "software/ai/hl/stp/tactic/tactic_visitor.h"
 #include "software/ai/hl/stp/tactic/transition_conditions.h"
 #include "software/util/visitor/visitable.hpp"
 #include "software/world/world.h"
@@ -14,7 +13,7 @@
  * @param parent_class The class that is being copied
  */
 #define COPY_TACTIC(new_class, parent_class)                                             \
-    class new_class : public parent_class, public Visitable<new_class>                   \
+    class new_class : public parent_class                                                \
     {                                                                                    \
         using parent_class::parent_class;                                                \
     };
@@ -31,7 +30,7 @@
  * Tactics are stateful, and use Primitives to implement their behaviour. They also
  * make heavy use of our Evaluation functions in order to help them make decisions.
  */
-class Tactic
+class Tactic : public Visitable<>
 {
    public:
     /**

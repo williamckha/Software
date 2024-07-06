@@ -6,7 +6,7 @@
 #include "software/ai/hl/stp/tactic/tactic.h"
 #include "software/geom/segment.h"
 
-class PivotKickTactic : public Tactic, public Visitable<StopTactic>
+class PivotKickTactic : public Tactic
 {
    public:
     /**
@@ -19,6 +19,7 @@ class PivotKickTactic : public Tactic, public Visitable<StopTactic>
     PivotKickTactic() = delete;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
     /**
      * Update control params for this tactic

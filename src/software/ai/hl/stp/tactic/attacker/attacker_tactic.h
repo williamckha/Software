@@ -11,7 +11,7 @@
  * Note that this tactic does not take into account the time the pass should occur at,
  * it simply tries to move to the best position to take the pass as fast as possible
  */
-class AttackerTactic : public Tactic, public Visitable<StopTactic>
+class AttackerTactic : public Tactic
 {
    public:
     /**
@@ -40,6 +40,7 @@ class AttackerTactic : public Tactic, public Visitable<StopTactic>
     void updateControlParams(std::optional<Point> chip_target);
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
    private:
     void updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm) override;

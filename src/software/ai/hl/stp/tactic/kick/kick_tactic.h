@@ -10,7 +10,7 @@
  * kick the ball to the kick target.
  */
 
-class KickTactic : public Tactic, public Visitable<StopTactic>
+class KickTactic : public Tactic
 {
    public:
     /**
@@ -41,6 +41,7 @@ class KickTactic : public Tactic, public Visitable<StopTactic>
                              double kick_speed_meters_per_second);
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
    private:
     void updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm) override;

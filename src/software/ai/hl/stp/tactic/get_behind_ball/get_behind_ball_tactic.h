@@ -7,7 +7,7 @@
  * The GetBehindBallTactic will move the assigned robot to the given destination and
  * arrive with the specified final orientation and speed
  */
-class GetBehindBallTactic : public Tactic, public Visitable<StopTactic>
+class GetBehindBallTactic : public Tactic
 {
    public:
     /**
@@ -24,6 +24,7 @@ class GetBehindBallTactic : public Tactic, public Visitable<StopTactic>
     void updateControlParams(const Point& ball_location, Angle chick_direction);
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
    private:
     void updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm) override;

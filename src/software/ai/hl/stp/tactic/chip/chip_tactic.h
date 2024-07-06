@@ -10,7 +10,7 @@
  * chip the ball to the chip target.
  */
 
-class ChipTactic : public Tactic, public Visitable<StopTactic>
+class ChipTactic : public Tactic
 {
    public:
     /**
@@ -38,6 +38,7 @@ class ChipTactic : public Tactic, public Visitable<StopTactic>
     void updateControlParams(const Point& chip_origin, const Point& chip_target);
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
    private:
     void updatePrimitive(const TacticUpdate& tactic_update, bool reset_fsm) override;

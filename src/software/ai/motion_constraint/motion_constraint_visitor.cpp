@@ -1,7 +1,5 @@
 #include "software/ai/motion_constraint/motion_constraint_visitor.h"
 
-#include "software/ai/hl/stp/tactic/all_tactics.h"
-
 void MotionConstraintVisitor::visit(GoalieTactic &tactic)
 {
     current_motion_constraints.erase(TbotsProto::MotionConstraint::FRIENDLY_DEFENSE_AREA);

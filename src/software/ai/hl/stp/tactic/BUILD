@@ -38,7 +38,6 @@ cc_library(
     hdrs = [
         "tactic.h",
         "tactic_fsm.h",
-        "//software/util/visitor:visitable",
     ],
     deps = [
         ":stop_primitive",
@@ -46,6 +45,7 @@ cc_library(
         "//proto/primitive:primitive_msg_factory",
         "//software/util/sml_fsm",
         "//software/util/typename",
+        "//software/util/visitor:visitable",
         "//software/world",
         "@tracy",
     ],
@@ -53,7 +53,7 @@ cc_library(
 
 cc_library(
     name = "tactic_visitor",
-    hdrs = [":tactic_visitor.h"],
+    hdrs = [":tactic_visitor.hpp"],
     deps = [
         ":all_tactics",
         "//software/util/visitor:visitor",

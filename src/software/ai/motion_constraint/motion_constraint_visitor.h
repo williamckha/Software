@@ -3,10 +3,10 @@
 #include <set>
 
 #include "proto/primitive.pb.h"
-#include "software/ai/hl/stp/tactic/tactic_visitor.h"
+#include "software/ai/hl/stp/tactic/tactic_visitor.hpp"
 #include "software/world/game_state.h"
 
-class MotionConstraintVisitor : public TacticVisitor
+class MotionConstraintVisitor : public TacticVisitor<>
 {
    public:
     explicit MotionConstraintVisitor() = default;

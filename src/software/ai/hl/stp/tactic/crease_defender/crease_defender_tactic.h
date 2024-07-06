@@ -25,7 +25,7 @@
  *                       |         ++    <-- Goalie
  *+----------------------+---------++---------+------------------+
  */
-class CreaseDefenderTactic : public Tactic, public Visitable<StopTactic>
+class CreaseDefenderTactic : public Tactic
 {
    public:
     /**
@@ -39,6 +39,7 @@ class CreaseDefenderTactic : public Tactic, public Visitable<StopTactic>
     CreaseDefenderTactic() = delete;
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
     /**
      * Update control params for this tactic

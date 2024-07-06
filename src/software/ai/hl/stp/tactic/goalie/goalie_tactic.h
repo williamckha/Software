@@ -14,7 +14,7 @@
  * distance either way to intercept a potential straight shot into the net.
  *
  */
-class GoalieTactic : public Tactic, public Visitable<StopTactic>
+class GoalieTactic : public Tactic
 {
    public:
     /**
@@ -32,6 +32,7 @@ class GoalieTactic : public Tactic, public Visitable<StopTactic>
     void updateControlParams(bool should_move_to_goal_line);
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
+    DEFINE_VISITABLE
 
    private:
     void updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm) override;

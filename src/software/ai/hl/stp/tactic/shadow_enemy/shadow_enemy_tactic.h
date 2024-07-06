@@ -10,7 +10,7 @@
  * EnemyThreat. It will choose to either block the enemy's shot on net or the pass it
  * would receive from another enemy.
  */
-class ShadowEnemyTactic : public Tactic, public Visitable<StopTactic>
+class ShadowEnemyTactic : public Tactic
 {
    public:
     explicit ShadowEnemyTactic();
@@ -27,7 +27,8 @@ class ShadowEnemyTactic : public Tactic, public Visitable<StopTactic>
                              double shadow_distance);
 
     DEFINE_TACTIC_DONE_AND_GET_FSM_STATE
-
+    DEFINE_VISITABLE
+    
    private:
     void updatePrimitive(const TacticUpdate &tactic_update, bool reset_fsm) override;
 
