@@ -71,27 +71,12 @@ simulated_tests_install_deps()
 all_contents = """filegroup(name = "all", srcs = glob(["**/**"]), visibility = ["//visibility:public"])"""
 
 http_archive(
-    name = "rapidcheck",
-    build_file_content = all_contents,
-    sha256 = "93f73c2c39ff91fd3a265b87b429ed266631c2425d9287d4548b149b99168736",
-    strip_prefix = "rapidcheck-7acca63b8e834a74fd47fe8fbf17668d22cc6331",
-    urls = ["https://github.com/emil-e/rapidcheck/archive/7acca63b8e834a74fd47fe8fbf17668d22cc6331.zip"],
-)
-
-http_archive(
     name = "cpp_redis",
     sha256 = "12a6fc86ba4ca3d4537a3eee82c094f385b8e03e283c664c976f16d421f17f7d",
     strip_prefix = "cpp_redis-fc2c43fa07e45e1ef0f77cbda6a240e7890ae5aa",
     urls = [
         "https://github.com/cpp-redis/cpp_redis/archive/fc2c43fa07e45e1ef0f77cbda6a240e7890ae5aa.zip",
     ],
-)
-
-http_archive(
-    name = "tacopie",
-    sha256 = "bbdebecdb68d5f9eb64170217000daf844e0aee18b8c4d3dd373d07efd9f7316",
-    strip_prefix = "tacopie-master",
-    url = "https://github.com/cylix/tacopie/archive/master.zip",
 )
 
 http_archive(
@@ -204,14 +189,6 @@ new_git_repository(
     commit = "61086fcf5b3a8ad4bda578cdc2d1dca57b548786",
     remote = "https://github.com/saebyn/munkres-cpp.git",
     shallow_since = "1479502661 -0800",
-)
-
-# yaml cpp parser for dynamic parameters test
-git_repository(
-    name = "yaml-cpp",
-    commit = "f531f8a8c3f8ca0923f9219c72fcca511555f824",
-    remote = "https://github.com/jbeder/yaml-cpp.git",
-    shallow_since = "1571237073 -0500",
 )
 
 new_local_repository(
