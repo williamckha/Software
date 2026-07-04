@@ -2,9 +2,9 @@ name: Tbots CI
 
 on:
   push:
-    branches: [ master, robocup_* ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, robocup_* ]
+    branches: [ master ]
   schedule:
     - cron: '0 8 * * *'  # 12 AM PST / 8 AM UTC
   workflow_dispatch:

@@ -2,9 +2,9 @@ name: auto-fixes with pre-commit
 
 on:
   push:
-    branches: [ master, robocup_* ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, robocup_* ]
+    branches: [ master ]
     types: [ opened, reopened, synchronize, ready_for_review ]
 
 concurrency:
