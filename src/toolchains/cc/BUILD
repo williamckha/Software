@@ -1,3 +1,4 @@
+load("@rules_cc//cc:defs.bzl", "cc_toolchain", "cc_toolchain_suite")
 load(
     ":cc_toolchain_config.bzl",
     "cc_toolchain_config_fullsystem",
@@ -249,8 +250,9 @@ cc_toolchain_config_k8_aarch64_linux(
     builtin_include_directories = [
         "/opt/tbotspython/aarch64-tbots-linux-gnu/aarch64-tbots-linux-gnu/include/",
         "/opt/tbotspython/aarch64-tbots-linux-gnu/aarch64-tbots-linux-gnu/sysroot/usr/include/",
-        "/opt/tbotspython/aarch64-tbots-linux-gnu/lib/gcc/aarch64-tbots-linux-gnu/14.3.0/include/",
-        "/opt/tbotspython/aarch64-tbots-linux-gnu/lib/gcc/aarch64-tbots-linux-gnu/14.3.0/include-fixed",
+        "/opt/tbotspython/aarch64-tbots-linux-gnu/lib/gcc/aarch64-tbots-linux-gnu/8.5.0/include/",
+        "/opt/tbotspython/aarch64-tbots-linux-gnu/lib/gcc/aarch64-tbots-linux-gnu/8.5.0/include-fixed",
+        "/opt/tbotspython/cross_compile_headers/include/",
     ] + make_builtin_include_directories(),
     tool_paths = {
         "ar": "wrapper/k8_aarch64_linux_ar",

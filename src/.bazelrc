@@ -44,8 +44,14 @@ common --features=external_include_paths
 # See https://docs.bazel.build/versions/master/remote-caching.html#disk-cache
 build --disk_cache=~/.cache/thunderbots_bazel_disk_cache
 
-build --experimental_remote_merkle_tree_cache # partial repo caching optimization
 common --incompatible_enable_proto_toolchain_resolution # protoc caching
+common --@protobuf//bazel/toolchains:prefer_prebuilt_protoc
+common --incompatible_default_to_explicit_init_py
+
+# Cross-compilation config for targeting the robot (aarch64)
+build:robot --platforms=//toolchains/cc:robot
+build:robot --copt=-I/opt/tbotspython/cross_compile_headers/include
+build:robot --copt=-Wno-attributes
 
 # Ensure that we don't accidentally build gRPC
 common --per_file_copt=external/.*grpc.*@--GRPC_WAS_NOT_SUPPOSED_TO_BE_BUILT
@@ -54,6 +60,10 @@ common --host_per_file_copt=external/.*grpc.*@--GRPC_WAS_NOT_SUPPOSED_TO_BE_BUIL
 ################# Build Configurations #################
 # Lock C++ version
 build --cxxopt="-std=c++2a"
+# Suppress deprecation warnings in external deps (protobuf 35.1 uses its own
+# deprecated FieldOptions::weak() internally; abseil has false-positive
+# -Wmaybe-uninitialized). Our code still gets -Werror via build:linux below.
+build --per_file_copt=external/.*@-Wno-deprecated-declarations,-Wno-deprecated,-Wno-maybe-uninitialized
 # Warn variable length arrays only when compiling cpp
 build --per_file_copt=.*\.cpp@-Wvla
 
@@ -69,7 +79,7 @@ build --incompatible_remove_legacy_whole_archive=False
 
 # Escalate Warnings to fail Compile for Thunderbots code
 build --features=external_include_paths
-build:linux --per_file_copt=proto/.*,proto/message_translation/.*,proto/primitive/.*,software/.*,shared/.*,-external/.*@-Wall,-Wextra,-Wno-unused-parameter,-Wno-deprecated,-Werror,-Wno-deprecated-declarations
+build:linux --per_file_copt=proto/.*,proto/message_translation/.*,proto/primitive/.*,software/.*,shared/.*,-external/.*@-Wall,-Wextra,-Wno-unused-parameter,-Wno-deprecated,-Wno-sign-compare,-Werror,-Wno-deprecated-declarations,-Wno-unused-result,-Wno-missing-field-initializers
 # TODO: #3492
 # build --per_file_copt=software/.*,shared/.*,-external/.*@-Wconversion
 

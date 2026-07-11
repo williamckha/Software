@@ -3,6 +3,8 @@ load("@platformio_rules//platformio:platformio.bzl", "PlatformIOLibraryInfo")
 # This file is heavily referencing platformio.bzl from rules_platformio project
 # https://github.com/mum4k/platformio_rules
 
+load("@rules_cc//cc/common:cc_common.bzl", "cc_common")
+load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
 load("@rules_proto//proto:defs.bzl", "ProtoInfo")
 
 # The relative filename of the header file.
@@ -102,15 +104,15 @@ def _compile_protos_for_nanopb(
             continue
         proto_compile_args = []
         for path in all_proto_include_dirs.to_list():
-            proto_compile_args += ["-I%s" % path]
+            proto_compile_args.append("-I%s" % path)
         target_path = proto_file.path[:-len(".proto")]
         h_out_name = generation_folder_name + target_path + ".nanopb.h"
         c_out_name = generation_folder_name + target_path + ".nanopb.c"
         c_out = ctx.actions.declare_file(c_out_name)
         h_out = ctx.actions.declare_file(h_out_name)
 
-        proto_compile_args += ["--plugin=protoc-gen-nanopb=%s" % (ctx.executable.nanopb_generator.path)]
-        proto_compile_args += ["--nanopb_out=%s %s" % (generated_folder_abs_path, proto_file.path)]
+        proto_compile_args.append("--plugin=protoc-gen-nanopb=%s" % (ctx.executable.nanopb_generator.path))
+        proto_compile_args.append("--nanopb_out=%s %s" % (generated_folder_abs_path, proto_file.path))
 
         nanopb_opts = ["--extension=.nanopb"]
         proto_basename = proto_file.basename[:-len(".proto")]
@@ -118,7 +120,7 @@ def _compile_protos_for_nanopb(
             nanopb_opts.append("--options-file=%s" % all_options_map[proto_basename].path)
 
         for opt in nanopb_opts:
-            proto_compile_args += ["--nanopb_opt=%s" % opt]
+            proto_compile_args.append("--nanopb_opt=%s" % opt)
 
         cmd = [ctx.executable.protoc.path] + proto_compile_args
         cmd_str = " ".join(cmd)
@@ -436,12 +438,12 @@ nanopb_proto_library = rule(
         ),
         "nanopb_generator": attr.label(
             executable = True,
-            cfg = "host",
+            cfg = "exec",
             default = Label("@nanopb//:protoc-gen-nanopb"),
         ),
         "protoc": attr.label(
             executable = True,
-            cfg = "host",
+            cfg = "exec",
             default = Label("@protobuf//:protoc"),
         ),
         "options": attr.label_list(

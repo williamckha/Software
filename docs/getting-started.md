@@ -344,7 +344,7 @@ Tracy also samples call stacks. If the profiled binary is run with root permissi
 
 ## Building for the robot
 
-To build for the robot computer, build the target with the `--platforms=//toolchains/cc:robot` flag and the toolchain will automatically build using the ARM toolchain. For example, `bazel build --platforms=//toolchains/cc:robot //software/geom/...`.
+To build for the robot computer, build the target with the `--config=robot` flag and the toolchain will automatically build using the ARM toolchain. For example, `bazel build --config=robot //software/geom/...`.
 
 ## Deploying Robot Software to the robot
 
@@ -353,7 +353,7 @@ We use Ansible to automatically update software running on the robot. [More info
 To update binaries on a working robot, you can run:
 
 ```bash
-bazel run //software/embedded/ansible:run_ansible --platforms=//toolchains/cc:robot -- --playbook deploy_robot_software.yml --hosts <robot_ip> --ssh_pass <robot_password>
+bazel run //software/embedded/ansible:run_ansible --config=robot -- --playbook deploy_robot_software.yml --hosts <robot_ip> --ssh_pass <robot_password>
 ```
 
 Where `<robot_ip>` is the IP address of the robot you are deploying to. The `robot_password` is the password used to login to the `robot` user on the robot.
