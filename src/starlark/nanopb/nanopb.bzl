@@ -123,7 +123,8 @@ def _compile_protos_for_nanopb(
             proto_compile_args.append("--nanopb_opt=%s" % opt)
 
         cmd = [ctx.executable.protoc.path] + proto_compile_args
-        cmd_str = " ".join(cmd)
+        protoc_dir = ctx.executable.protoc.dirname
+        cmd_str = "PATH={}:$PATH ".format(protoc_dir) + " ".join(cmd)
         ctx.actions.run_shell(
             tools = [
                 ctx.executable.protoc,
