@@ -3,6 +3,7 @@ load("@platformio_rules//platformio:platformio.bzl", "PlatformIOLibraryInfo")
 # This file is heavily referencing platformio.bzl from rules_platformio project
 # https://github.com/mum4k/platformio_rules
 
+load("@protobuf//bazel/private:toolchain_helpers.bzl", "toolchains")
 load("@rules_cc//cc/common:cc_common.bzl", "cc_common")
 load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
 load("@rules_proto//proto:defs.bzl", "ProtoInfo")
@@ -99,6 +100,10 @@ def _compile_protos_for_nanopb(
     all_proto_hdr_files = []
     all_proto_src_files = []
 
+    protoc = ctx.toolchains[toolchains.PROTO_TOOLCHAIN].proto.proto_compiler
+    protoc_path = protoc.executable.path
+    protoc_dir = "/".join(protoc_path.split("/")[:-1])
+
     for proto_file in all_proto_files.to_list():
         if proto_file.basename in ("descriptor.proto", "nanopb.proto"):
             continue
@@ -122,12 +127,11 @@ def _compile_protos_for_nanopb(
         for opt in nanopb_opts:
             proto_compile_args.append("--nanopb_opt=%s" % opt)
 
-        cmd = [ctx.executable.protoc.path] + proto_compile_args
-        protoc_dir = ctx.executable.protoc.dirname
+        cmd = [protoc_path] + proto_compile_args
         cmd_str = "PATH={}:$PATH ".format(protoc_dir) + " ".join(cmd)
         ctx.actions.run_shell(
             tools = [
-                ctx.executable.protoc,
+                protoc,
                 ctx.executable.nanopb_generator,
             ],
             inputs = all_proto_files.to_list() + list(all_options_map.values()),
@@ -442,11 +446,6 @@ nanopb_proto_library = rule(
             cfg = "exec",
             default = Label("@nanopb//:protoc-gen-nanopb"),
         ),
-        "protoc": attr.label(
-            executable = True,
-            cfg = "exec",
-            default = Label("@protobuf//:protoc"),
-        ),
         "options": attr.label_list(
             allow_files = [".options"],
             mandatory = False,
@@ -460,7 +459,7 @@ nanopb_proto_library = rule(
         PlatformIOLibraryInfo,
         CcInfo,
     ],
-    toolchains = ["@bazel_tools//tools/cpp:toolchain_type"],
+    toolchains = ["@bazel_tools//tools/cpp:toolchain_type"] + toolchains.use_toolchain(toolchains.PROTO_TOOLCHAIN),
     fragments = ["cpp"],
     host_fragments = ["cpp"],
 )
