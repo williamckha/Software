@@ -50,17 +50,6 @@ class Thunderloop
     [[noreturn]] void runLoop();
 
    private:
-    /**
-     * Polls the network service, updating the current primitive and seeding the
-     * localizer with its starting pose when a new primitive arrives.
-     */
-    void pollNetwork();
-
-    /**
-     * Wait for networking communication to be established. This function is blocking.
-     */
-    void waitForNetworkUp(int channel_id, const std::string& network_interface);
-
     std::unique_ptr<TomlConfigClient> toml_config_client_;
     std::unique_ptr<MotorService> motor_service_;
     std::unique_ptr<NetworkService> network_service_;
@@ -70,9 +59,6 @@ class Thunderloop
     std::unique_ptr<PrimitiveExecutor> primitive_executor_;
 
     int loop_hz_;
-
-    // The current primitive being executed.
-    TbotsProto::Primitive primitive_;
 
     // This robot status message is updated by each service and then sent
     // to fullsystem over the network.
