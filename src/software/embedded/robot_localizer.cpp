@@ -317,6 +317,12 @@ void RobotLocalizer::update(const TbotsProto::RobotStatus& robot_status)
                 getOrientation()),
             createAngularVelocity(robot_status.motor_status().angular_velocity())});
     }
+
+    if (robot_status.has_imu_status() && robot_status.imu_status().has_angular_velocity())
+    {
+        update(
+            ImuData{createAngularVelocity(robot_status.imu_status().angular_velocity())});
+    }
 }
 
 Point RobotLocalizer::getPosition() const
